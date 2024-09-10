@@ -16,12 +16,15 @@ class ProductsController < ApplicationController
               image_url: params[:image_url],
               description: params[:description],
               )
-              if product.save
+              @product.save
+              render :show
+              # happy/sad path
+              if @product.save
                 render :show
               else
-                render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
+                # error handling      # 
+                render json: {errors: @product.errors.full_messages}
               end
-            render :show
           end
 
             def update
