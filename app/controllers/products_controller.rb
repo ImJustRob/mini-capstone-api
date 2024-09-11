@@ -13,8 +13,8 @@ class ProductsController < ApplicationController
             @products = Product.create(
               name: params[:name],
               price: params[:price],
-              image_url: params[:image_url],
               description: params[:description],
+              
               )
               @product.save
               render :show
@@ -37,7 +37,6 @@ class ProductsController < ApplicationController
                 @products.update(
                 name: params[:name] || @products.name,
                 price: params[:price] || @product.price,
-                image_url: params[:image_url] || @products.image_url,
                 description: params[:description] || @products.description
 
                 )
