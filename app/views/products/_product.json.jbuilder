@@ -9,5 +9,9 @@ json.tax product.tax
 json.total product.total
 json.supplier product.supplier
 json.supplier_id product.supplier_id
-json.image product.image
-json.url product.url
+# json.image product.image
+# json.url product.url
+json.user_id product.user_id
+json.product_id product.product_id
+json.quantity product.quantity
+json.subtotal product.subtotal

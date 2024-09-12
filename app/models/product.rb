@@ -7,6 +7,10 @@ class Product < ApplicationRecord
     
     belongs_to :supplier
     has_many :images
+    Order belongs_to: :product
+    Order belongs_to: :user
+    Product has_many :orders
+    User has_many :orders
 
     def is_discounted?
         if price <= 10
