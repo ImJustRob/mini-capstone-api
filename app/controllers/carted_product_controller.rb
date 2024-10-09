@@ -1,0 +1,4 @@
+class CartedProductController < ApplicationController
+
+    
+end
