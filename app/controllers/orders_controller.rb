@@ -1,34 +1,47 @@
 class OrdersController < ApplicationController
-    def create
-
-        product = Product.find_by(id: params[:product_id])
-    calculated_subtotal = product.price * params[:quantity].to_i
-    calculated_tax = calculated_subtotal * 0.09
-    calculated_total = calculated_subtotal + calculated_tax
-
-
-        @order = Order.create(
-         user_id: current_user.id,
-         product_id: params[:product_id],
-         quantity: params[:quantity],
-         subtotal: calculated_subtotal,
-         tax: calculated_tax,
-         total: calculated_total,
-        )
-        @order.save
-        render :show
-    end
-        def show
-            @order = Order.find_by(id: params[:id])
-            if @order.user_id == current_user.id
-                render :show
-            else
-                render json: {}, status: :unauthorized
-            end
+    def index
+        @orders = Order.where(user_id: current_user.id)
+        render :index
+      end
+      
+      def create
+      
+        @carted_products = CartedProduct.where(status: "carted", user_id: current_user.id)
+       
+    
+        calculated_subtotal = 0
+        @carted_products.each do |cp|
+          calculated_subtotal += cp.quantity * cp.product.price
         end
-
-            def index
-                @orders = Order.where(user_id: current_user.id)
-                render :index
-            end
+    
+        calculated_tax = calculated_subtotal * 0.09
+        calculated_total = calculated_subtotal + calculated_tax
+    
+    
+        
+        @order = Order.new(
+          user_id: current_user.id,
+          subtotal: calculated_subtotal.to_s,
+          tax: calculated_tax,
+          total: calculated_total,      
+        )
+        @order.save!
+    
+       
+        @carted_products.each do |cp|
+          cp.order_id = @order.id
+          cp.status = "purchased"
+          cp.save
+        end
+        render :show
+      end
+    
+      def show
+        @order = Order.find_by(id: params[:id])
+        if @order.user_id == current_user.id
+          render :show
+        else
+          render json: {}, status: :unauthorized
+        end
+      end
 end

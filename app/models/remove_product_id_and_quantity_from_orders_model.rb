@@ -1,0 +1,2 @@
+class RemoveProductIdAndQuantityFromOrdersModel < ApplicationRecord
+end
