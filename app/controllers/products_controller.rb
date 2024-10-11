@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
       end
 
       def show
-        @products = Product.find_by(id: params[:id])
+        @product = Product.find_by(id: params[:id])
         render :show
       end
 
@@ -31,19 +31,19 @@ class ProductsController < ApplicationController
               # else 
               #   render json: {error: }
               # end
-                @products = Product.find_by(id: params[:id])
-                @products.update(
-                name: params[:name] || @products.name,
+                @product = Product.find_by(id: params[:id])
+                @product.update(
+                name: params[:name] || @product.name,
                 price: params[:price] || @product.price,
-                description: params[:description] || @products.description
+                description: params[:description] || @product.description
 
                 )
                 render :show
             end
 
                 def destroy
-                    @products = Product.find_by(id: params[:id])
-                    @products.destroy
+                    @product = Product.find_by(id: params[:id])
+                    @product.destroy
                     render json: { message: "Product destroyed successfully" }
                 end
 end
